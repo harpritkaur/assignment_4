@@ -63,7 +63,7 @@ public class Account {
      * @param cash - the cash to withdraw
      */
     public void withdraw(double cash) {
-        balance=balance-withdraw;
+        balance=balance-cash;
     
     }
     
