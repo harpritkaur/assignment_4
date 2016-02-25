@@ -17,6 +17,7 @@
 package servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,5 +38,43 @@ public class AccountServlet extends HttpServlet {
        String data=Double.toString(instance.getBalance());
        // System.out.println(data);
        response.getWriter().write(data);
+    }
+    
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    {
+        try(PrintWriter out=response.getWriter()){
+            
+            if(request.getParameterMap().containsKey("withdraw"))
+            {
+                String cashToW=request.getParameter("withdraw");
+                double withdraw=Double.parseDouble(cashToW);
+                if(withdraw!=0){
+                    instance.withdraw(withdraw);
+                }
+            }
+            
+            if(request.getParameterMap().containsKey("deposit"))
+            {
+                String cashToD=request.getParameter("deposit");
+                double deposit=Double.parseDouble(cashToD);
+                if(deposit!=0){
+                    instance.deposit(deposit);
+                }
+            }
+            
+            if(request.getParameterMap().containsKey("close"))
+            {
+                boolean bool=Boolean.parseBoolean(request.getParameter("close"));
+                if(bool){
+                    instance.close();
+                }
+            }
+            
+            
+        }
+        catch(IOException ex){
+            System.out.println("Something went wrong: "+ex.getMessage());
+        }
     }
 }
